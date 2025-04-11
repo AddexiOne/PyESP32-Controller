@@ -5,8 +5,59 @@
     <title>PyESP32-Controller</title>
 </head>
 <body>
-    <h1>Hello</h1>
-    <h2>Date & RTC</h2>
+    <h1>PyESP32-Controller</h1>
+    <div>
+        <aside style="float: left; width: 200px;">
+            <h2>Temp & Humidity</h2>
+            <p>Temperature: <span id="temp">Wait...</span></p>
+            <p>Humidity: <span id="humidity">Wait...</span></p>
+
+        </aside>
+    </div>
+    <div>
+        <aside style="float: right; width: 200px;">
+            <h2>LED Control</h2>
+            <p>LED Clock Status: <span id="clock_status">disabled</span>
+                <form id="clock_status_form">
+                    <button id="clock_status_button" type="button" onclick="updateLedStatus()">Refresh</button>
+                </form>
+            </p>
+            <form action="/enable_led_clock" method="POST">
+                <button id="btnclockon" type="submit" value="on" onclick="updateLedStatus()">Clock ON</button>
+            </form>
+            <form action="/disable_led_clock" method="POST">
+                <button id="btnclockoff" type="submit" value="off" onclick="updateLedStatus()">Clock OFF</button>
+            </form>
+            <form action="/led_animation" method="POST">
+                <button type="submit" value="on" >Cool animation</button>
+            </form>
+        </aside>
+        <script>
+            function updateLedStatus() {
+                // sleep for 5 seconds
+                    // Fetch the LED status from the server
+                    fetch('/clock_status')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('clock_status').innerText = data.status
+                        if (data.status === "enabled") {
+                            document.getElementById('btnclockon').disabled = true
+                            document.getElementById('btnclockoff').disabled = false
+                        } else {
+                            document.getElementById('btnclockon').disabled = false
+                            document.getElementById('btnclockoff').disabled = true
+                        }
+                    })
+                    .catch(error => console.error('Error fetching LED status:', error));
+
+            }
+        </script>
+    </div>
+    <div style="clear: both;"></div>
+    <!-- center the content -->
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h2>Date & RTC</h2>
     <form action="/init_rtc" method="POST">
         <label for="rtc">RTC:</label>
         <input type="datetime-local" id="rtc" name="rtc" required>
@@ -14,21 +65,28 @@
     </form>
     <script>
         // Get the current date and time
-        const now = new Date();
+        let now = new Date();
         // Format the date and time to YYYY-MM-DDTHH:MM
+        // add 2 hours to UTC time
+        now.setHours(now.getHours() + 2);
         const formattedDate = now.toISOString().slice(0, 16);
         // Set the value of the input field to the formatted date and time
         document.getElementById('rtc').value = formattedDate;
     </script>
+    </div>
 
-    <form action="/enable_led_clock" method="POST">
-        <button type="submit" value="on">Enable LED Clock</button>
-    </form>
-    <form action="/disable_led_clock" method="POST">
-        <button type="submit" value="off">Disable LED Clock</button>
-    </form>
-    <form action="/led_animation" method="POST">
-        <button type="submit" value="off">Cool Animation</button>
-    </form>
 </body>
+<script>
+                function updateSensorData() {
+                    fetch('/sensor_data')
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('temp').innerText = data.temperature + ' °C';
+                            document.getElementById('humidity').innerText = data.humidity + ' %';
+                        })
+                        .catch(error => console.error('Error fetching sensor data:', error));
+                }
+
+                setInterval(updateSensorData, 10000);
+            </script>
 </html>
