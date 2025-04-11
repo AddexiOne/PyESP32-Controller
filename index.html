@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PyESP32-Controller</title>
+</head>
+<body>
+    <h1>Hello</h1>
+    <h2>Date & RTC</h2>
+    <form action="/init_rtc" method="POST">
+        <label for="rtc">RTC:</label>
+        <input type="datetime-local" id="rtc" name="rtc" required>
+        <button type="submit">Init RTC</button>
+    </form>
+    <script>
+        // Get the current date and time
+        const now = new Date();
+        // Format the date and time to YYYY-MM-DDTHH:MM
+        const formattedDate = now.toISOString().slice(0, 16);
+        // Set the value of the input field to the formatted date and time
+        document.getElementById('rtc').value = formattedDate;
+    </script>
+
+    <form action="/enable_led_clock" method="POST">
+        <button type="submit" value="on">Enable LED Clock</button>
+    </form>
+    <form action="/disable_led_clock" method="POST">
+        <button type="submit" value="off">Disable LED Clock</button>
+    </form>
+    <form action="/led_animation" method="POST">
+        <button type="submit" value="off">Cool Animation</button>
+    </form>
+</body>
+</html>
