@@ -23,7 +23,7 @@ port_ = 80
 # WiFi setup
 wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
-wifi.connect("AlexiPhone", "titoupute")
+wifi.connect("xxx", "xxx")
 while not wifi.isconnected():
     pass
 
