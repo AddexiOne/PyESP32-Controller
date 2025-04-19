@@ -173,7 +173,7 @@ def clock_status(request: Request):
     return {"status": "enabled" if led_clock else "disabled"}
 
 @app.post("/enable_led_clock")
-def enable_led_clock_device(request: Request, response: Response):
+def enable_led_clock_device(request: Request):
     global led_clock
     led_clock = True
     start_chime_timer()
