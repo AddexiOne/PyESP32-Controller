@@ -1,10 +1,16 @@
 # PyESP32-Controller
 
-## Roadmap
-- [x] Connexion wifi
-- [x] Serveur microdot simple avec HTML basique
-- [ ] Route vers API pour recup humidité
-- [ ] Recupérer Heure de l'esp32 avec RTC
-- [ ] Page affichage de l'heure RTC
-- [ ] Route vers Heure de l'esp32 affichée dans les LEDs
-- [ ]
+# Project description
+
+This project is a Microptyhon project that can control an ESP32 using a web interface.
+The main functionalities are the temperature and humidity dashboard, and the LED clock.
+
+# The LED Clock
+The LED clock is a clock that displays the time using the LEDs on the ESP32.
+Depending on the time, LEDs are lit up.
+The hours are red, the minutes green and the seconds blue.
+
+You can start the clock using the button on the web interface.
+It is recommanded to start the RTC using the dashboard too.
+
+The RTC is pre-configured as the current JavaScript time.
